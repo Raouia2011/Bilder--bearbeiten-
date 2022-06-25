@@ -11,6 +11,8 @@ let hueRotate
 let download 
 let reset
 let imgBox
+let canvas=document.getElementById(`canvas`)
+let ctx =canvas.getContext(`2d`)
 
 
 window.onload = () => {
@@ -26,6 +28,9 @@ window.onload = () => {
     download = document.getElementById(`download`)
     reset=document.querySelector(`span`)
     imgBox=document.querySelector(`.imgbox`)
+    canvas=document.getElementById(`canvas`)
+    ctx =canvas.getContext(`2d`)
+
     
     
     download.style.display=`none`;
@@ -43,13 +48,22 @@ window.onload = () => {
         file.onload=function(){
             img.src=file.result;
         }
-        console.log(img);  
+        //console.log(img);  
+        img.onload=() =>{
+            canvas.width = img.width;
+            canvas.height = img.height;
+            
+            ctx.drawImage(img,0,0,canvas.width, canvas.height)
+            img.style.display=`none`
+        }
     }
   
     
 }
 function resetValue(){
-    img.style.filter=`none`;
+    ctx.drawImage(img,0,0,canvas.width, canvas.height)
+
+    ctx.filter=`none`;
     saturate.value=`100`;
     contrast.value=`100`;
     brightness.value=`100`;
@@ -81,7 +95,7 @@ for(let i = 0; i < data.length; i++){
         objRange[data[i].id] = document.getElementById(`${data[i].id}`).value;
 
 
-        img.style.filter = `
+        ctx.filter = `
             saturate(${objRange.saturate}%)
             contrast(${objRange.contrast}%)
             brightness(${objRange.brightness}%)
@@ -97,9 +111,13 @@ for(let i = 0; i < data.length; i++){
             ${keysOfObjRange[4]}(${objRange[keysOfObjRange[4]]})
             ${keysOfObjRange[5]}(${objRange[keysOfObjRange[5]]}px)
             ${keysOfObjRange[6]}(${objRange[keysOfObjRange[6]]}deg) */
-        
+            ctx.drawImage(img,0,0,canvas.width,canvas.height)
+            download.onclick = () =>{
+                download.href = canvas.toDataURL()
+            }
+        }
     } 
-}
+   
 
 /*let filters=document.querySelectorAll("ul li input");
 

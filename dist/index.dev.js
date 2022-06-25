@@ -12,6 +12,8 @@ var hueRotate;
 var download;
 var reset;
 var imgBox;
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
 
 window.onload = function () {
   img = document.getElementById("img");
@@ -26,6 +28,8 @@ window.onload = function () {
   download = document.getElementById("download");
   reset = document.querySelector("span");
   imgBox = document.querySelector(".imgbox");
+  canvas = document.getElementById("canvas");
+  ctx = canvas.getContext("2d");
   download.style.display = "none";
   reset.style.display = "none";
   imgBox.style.display = "none";
@@ -40,14 +44,21 @@ window.onload = function () {
 
     file.onload = function () {
       img.src = file.result;
-    };
+    }; //console.log(img);  
 
-    console.log(img);
+
+    img.onload = function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      img.style.display = "none";
+    };
   };
 };
 
 function resetValue() {
-  img.style.filter = "none";
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  ctx.filter = "none";
   saturate.value = "100";
   contrast.value = "100";
   brightness.value = "100";
@@ -69,7 +80,7 @@ for (var i = 0; i < data.length; i++) {
 var _loop = function _loop(_i) {
   data[_i].onchange = function () {
     objRange[data[_i].id] = document.getElementById("".concat(data[_i].id)).value;
-    img.style.filter = "\n            saturate(".concat(objRange.saturate, "%)\n            contrast(").concat(objRange.contrast, "%)\n            brightness(").concat(objRange.brightness, "%)\n            sepia(").concat(objRange.sepia, "%)\n            grayscale(").concat(objRange.grayscale, ")\n            blur(").concat(objRange.blur, "px)\n            hue-rotate(").concat(objRange["hue-rotate"], "deg)\n            ");
+    ctx.filter = "\n            saturate(".concat(objRange.saturate, "%)\n            contrast(").concat(objRange.contrast, "%)\n            brightness(").concat(objRange.brightness, "%)\n            sepia(").concat(objRange.sepia, "%)\n            grayscale(").concat(objRange.grayscale, ")\n            blur(").concat(objRange.blur, "px)\n            hue-rotate(").concat(objRange["hue-rotate"], "deg)\n            ");
     /* ${keysOfObjRange[0]}(${objRange[keysOfObjRange[0]]}%)
     ${keysOfObjRange[1]}(${objRange[keysOfObjRange[1]}%)
     ${keysOfObjRange[2]}(${objRange[keysOfObjRange[2]]}%)
@@ -77,6 +88,12 @@ var _loop = function _loop(_i) {
     ${keysOfObjRange[4]}(${objRange[keysOfObjRange[4]]})
     ${keysOfObjRange[5]}(${objRange[keysOfObjRange[5]]}px)
     ${keysOfObjRange[6]}(${objRange[keysOfObjRange[6]]}deg) */
+
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    download.onclick = function () {
+      download.href = canvas.toDataURL();
+    };
   };
 };
 

@@ -27,7 +27,7 @@ body{
     justify-content: center;
     align-items: center;
 }
-.img img{
+.img img,canvas{
     max-width: 45vw;
     max-height: 60vh;
 }
@@ -66,4 +66,8 @@ display: none;
     .container{
         grid-template-columns: 1fr;
         gap: 50px;
-}}
+}
+.img img, .canvas{
+max-width: 80vw;
+}
+}
