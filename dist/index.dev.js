@@ -33,12 +33,14 @@ window.onload = function () {
   download.style.display = "none";
   reset.style.display = "none";
   imgBox.style.display = "none";
+  typeOfImg.style.display = "none";
 
   upload.onchange = function () {
-    alert("upload Button change");
+    // alert("upload Button change")
     download.style.display = "block";
     reset.style.display = "block";
     imgBox.style.display = "block";
+    typeOfImg.style.display = "block";
     var file = new FileReader();
     file.readAsDataURL(upload.files[0]);
 
@@ -92,7 +94,14 @@ var _loop = function _loop(_i) {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     download.onclick = function () {
-      download.href = canvas.toDataURL();
+      var typeOfImg = document.getElementById("typeOfImg");
+      var value = typeOfImg.options[typeOfImg.selectedIndex].value;
+
+      if (value === "image/jpeg") {
+        download.href = canvas.toDataURL("image/jpeg");
+      } else {
+        download.href = canvas.toDataURL();
+      }
     };
   };
 };

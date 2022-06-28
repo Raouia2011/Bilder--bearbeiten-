@@ -54,7 +54,7 @@ display: none;
 .filters ul li:last-child{
     flex-direction: row;
 }
-.filters ul li a, span{
+.filters ul li a, span,select {
     background: #060;
     padding: 10px 20px;
     color: #fff;

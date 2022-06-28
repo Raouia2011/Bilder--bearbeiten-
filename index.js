@@ -36,13 +36,15 @@ window.onload = () => {
     download.style.display=`none`;
     reset.style.display=`none`;
     imgBox.style.display=`none`;
-
+    typeOfImg.style.display=`none`;
 
     upload.onchange = () => {
-        alert("upload Button change")
+       // alert("upload Button change")
         download.style.display=`block`;
         reset.style.display=`block`;
         imgBox.style.display=`block`;
+        typeOfImg.style.display=`block`;
+
         let file=new FileReader();
         file.readAsDataURL(upload.files[0]);
         file.onload=function(){
@@ -113,7 +115,14 @@ for(let i = 0; i < data.length; i++){
             ${keysOfObjRange[6]}(${objRange[keysOfObjRange[6]]}deg) */
             ctx.drawImage(img,0,0,canvas.width,canvas.height)
             download.onclick = () =>{
-                download.href = canvas.toDataURL()
+                let typeOfImg=document.getElementById(`typeOfImg`)
+                
+                let value = typeOfImg.options[typeOfImg.selectedIndex].value;
+
+                if(value === "image/jpeg"){
+                download.href = canvas.toDataURL("image/jpeg")
+                }else{download.href = canvas.toDataURL()
+            }
             }
         }
     } 
